@@ -1,0 +1,56 @@
+
+body{
+    /* background-color:aquamarine; */
+    font-family: Notable;
+    font-family: Monoton;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+#maincontainer{
+    display: grid;
+    grid-template: 100px 100px 100px / 100px 100px 100px;
+    height: 300px;
+    width: 300px;
+    background-color: bisque;
+    border: 5px solid black;
+}
+
+.insidegrid{
+    border: 1px solid black;
+    /* text-align: center; */
+    /* align-items: center; */
+    /* align-self: center; */
+    height: 100%;
+    /* justify-content: center; */
+    /* justify-self: center; */
+    width:100%;
+    /* justify-items: center; */
+    align-content: center;
+    font-size: 50px;
+    
+}
+
+.insidegrid:hover{
+    background-color: rgb(234, 226, 216);
+    cursor: pointer;
+}
+
+button{
+    font-family: Notable;
+    padding: .4rem 1rem;
+    cursor: pointer;
+}
+
+#doubleplayerbtn {
+    margin-left: 5rem;
+}
+
+#statusheading{
+    word-spacing: 0.5rem;
+    letter-spacing: 0.3rem;
+}
