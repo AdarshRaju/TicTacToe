@@ -7,6 +7,7 @@ var doubleplayerbtn = document.getElementById("doubleplayerbtn");
 var gameover = true;
 var singleplayer = false;
 var twoplayer = false;
+var winsong = new Audio("public/mixkit-achievement-bell-600.wav");
 var whosturn;
 var playerxarr = [];
 var playeryarr = [];
@@ -87,7 +88,7 @@ function checkwincondition(playercell) {
                 statusheading.innerHTML = `Player ${whosturn == "X" ? "1" : "2"} wins! </br>Click Single Player or Two Player to play again`;
                 console.log("status heading has been changed to: ", statusheading.innerHTML);
                 gameover=true;
-                new Audio("public/mixkit-achievement-bell-600.wav").play();
+                winsong.play();
                 // playercell.style.textDecoration= "line-through";
                 return 
             }
