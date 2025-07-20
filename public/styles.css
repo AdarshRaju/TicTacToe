@@ -46,8 +46,9 @@ button{
     cursor: pointer;
 }
 
-#doubleplayerbtn {
-    margin-left: 5rem;
+#buttoncontainer {
+   display: flex;
+   justify-content: space-around;
 }
 
 #statusheading{
