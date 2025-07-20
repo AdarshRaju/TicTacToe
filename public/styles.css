@@ -11,6 +11,10 @@ body{
     text-align: center;
 }
 
+header{
+    min-width:100vw;
+}
+
 #maincontainer{
     display: grid;
     grid-template: 100px 100px 100px / 100px 100px 100px;
