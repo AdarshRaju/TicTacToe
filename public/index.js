@@ -7,6 +7,7 @@ var doubleplayerbtn = document.getElementById("doubleplayerbtn");
 var gameover = true;
 var singleplayer = false;
 var twoplayer = false;
+var pencilsound = new Audio("public/pencil-on-paper-45629.mp3");
 var winsong = new Audio("public/mixkit-achievement-bell-600.wav");
 var whosturn;
 var playerxarr = [];
@@ -51,6 +52,8 @@ function autoclickcell(){
 maincontainer.addEventListener("click", (e) =>{
 
     if (!gameover){
+        clickaudio(0, 0.45);
+        // pencilsound.play();
         if(whosturn == "X") {
             toggleplayerX();
         } else if (whosturn == "Y") {
@@ -79,6 +82,18 @@ doubleplayerbtn.addEventListener("click", (e) =>{
     toggleplayerX();
 });
 
+function clickaudio(starttime, endtime) {
+    pencilsound.currentTime = starttime;
+    pencilsound.play();
+
+    var soundinterval = setInterval(() =>{
+        if(!pencilsound.paused && pencilsound.currentTime >= endtime){
+            pencilsound.pause();
+            clearInterval(soundinterval);
+        }
+    },100);
+};
+
 
 function checkwincondition(playercell) {
         
@@ -89,6 +104,7 @@ function checkwincondition(playercell) {
                 console.log("status heading has been changed to: ", statusheading.innerHTML);
                 gameover=true;
                 winsong.play();
+                // pencilsound.play();
                 // playercell.style.textDecoration= "line-through";
                 return 
             }
