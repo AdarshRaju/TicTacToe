@@ -7,10 +7,11 @@ var doubleplayerbtn = document.getElementById("doubleplayerbtn");
 var gameover = true;
 var singleplayer = false;
 var twoplayer = false;
+var pencilsound = new Audio("public/pencil-on-paper-45629.mp3");
 var winsong = new Audio("public/mixkit-achievement-bell-600.wav");
 var whosturn;
 var playerxarr = [];
-var playeryarr = [];
+var playeroarr = [];
 
 var r1count = 0;
 var r2count = 0;
@@ -51,10 +52,12 @@ function autoclickcell(){
 maincontainer.addEventListener("click", (e) =>{
 
     if (!gameover){
+        clickaudio(0, 0.45);
+        // pencilsound.play();
         if(whosturn == "X") {
             toggleplayerX();
-        } else if (whosturn == "Y") {
-            toggleplayerY();
+        } else if (whosturn == "O") {
+            toggleplayerO();
             // Ideally just need to have a function here where the cpu clicks on one of the available cells
             if (singleplayer == true){
                 autoclickcell();
@@ -79,6 +82,18 @@ doubleplayerbtn.addEventListener("click", (e) =>{
     toggleplayerX();
 });
 
+function clickaudio(starttime, endtime) {
+    pencilsound.currentTime = starttime;
+    pencilsound.play();
+
+    var soundinterval = setInterval(() =>{
+        if(!pencilsound.paused && pencilsound.currentTime >= endtime){
+            pencilsound.pause();
+            clearInterval(soundinterval);
+        }
+    },100);
+};
+
 
 function checkwincondition(playercell) {
         
@@ -89,6 +104,7 @@ function checkwincondition(playercell) {
                 console.log("status heading has been changed to: ", statusheading.innerHTML);
                 gameover=true;
                 winsong.play();
+                // pencilsound.play();
                 // playercell.style.textDecoration= "line-through";
                 return 
             }
@@ -183,28 +199,28 @@ function playerXlogic(event){
     if(!gameover){
         
         resetlocalcounter();
-        whosturn = "Y";
+        whosturn = "O";
 
     }
 
     if(gameover){
         event.stopPropagation();
         [...insidegrid].forEach (cell => {
-            cell.removeEventListener("click", playerYlogic);
+            cell.removeEventListener("click", playerOlogic);
             cell.removeEventListener("click", playerXlogic);
           
         });
     }
 };
 
-function playerYlogic(event){
-    event.target.innerHTML = "Y";
-    playeryarr.push(event.target);
+function playerOlogic(event){
+    event.target.innerHTML = "O";
+    playeroarr.push(event.target);
     // check for win condition and return gameover if true
     console.log("playerxarr is now: ", playerxarr);
     // The win condition is checked each time a player makes an input
-    playeryarr.forEach(checkwincondition);
-    console.log("Y's r1count is now: ", r1count);
+    playeroarr.forEach(checkwincondition);
+    console.log("O's r1count is now: ", r1count);
     if(!gameover){
         
         resetlocalcounter();
@@ -216,7 +232,7 @@ function playerYlogic(event){
         event.stopPropagation();
         [...insidegrid].forEach (cell => {
             cell.removeEventListener("click", playerXlogic);
-            cell.removeEventListener("click", playerYlogic);
+            cell.removeEventListener("click", playerOlogic);
           
         });
     }
@@ -231,7 +247,7 @@ function toggleplayerX(){
         gameover=true;
         [...insidegrid].forEach (cell => {
             cell.removeEventListener("click", playerXlogic);
-            cell.removeEventListener("click", playerYlogic);
+            cell.removeEventListener("click", playerOlogic);
           
         });
         return;
@@ -239,7 +255,7 @@ function toggleplayerX(){
     whosturn = "X";
     statusheading.innerHTML = "Player 1's turn";
     [...insidegrid].forEach (cell => {
-            cell.removeEventListener("click", playerYlogic);
+            cell.removeEventListener("click", playerOlogic);
             // console.log("cell.innerHTML is: ", cell.innerHTML)
             if (cell.innerHTML == ""){
                 cell.addEventListener("click", playerXlogic);
@@ -247,26 +263,26 @@ function toggleplayerX(){
     });
 };
 
-function toggleplayerY(){
+function toggleplayerO(){
 
      if (![...insidegrid].find(cell => cell.innerHTML == "")){
         statusheading.innerHTML = "Draw! </br> Click Single Player or Two Player to play again";
-        console.log("empty check passed from toggleplayerY");
+        console.log("empty check passed from toggleplayerO");
         gameover=true;
         [...insidegrid].forEach (cell => {
             cell.removeEventListener("click", playerXlogic);
-            cell.removeEventListener("click", playerYlogic);
+            cell.removeEventListener("click", playerOlogic);
           
         });
         return;
     }
     
-    whosturn = "Y";
+    whosturn = "O";
     statusheading.innerHTML = "Player 2's turn";
     [...insidegrid].forEach (cell => {
             cell.removeEventListener("click", playerXlogic);
             if (cell.innerHTML == ""){
-                cell.addEventListener("click", playerYlogic);
+                cell.addEventListener("click", playerOlogic);
             };
     });
 };
@@ -274,11 +290,11 @@ function toggleplayerY(){
 function reset(){
      resetlocalcounter();
         playerxarr = [];
-        playeryarr = [];
+        playeroarr = [];
         
     [...insidegrid].forEach (cell => {
         cell.removeEventListener("click", playerXlogic);
-        cell.removeEventListener("click", playerYlogic);
+        cell.removeEventListener("click", playerOlogic);
         cell.style.textDecoration = "none";
        
         cell.innerHTML = "";
@@ -300,8 +316,8 @@ function reset(){
 //     else if (!gameover){
 //         if(whosturn == "X") {
 //             toggleplayerX();
-//         } else if (whosturn == "Y") {
-//             toggleplayerY();
+//         } else if (whosturn == "O") {
+//             toggleplayerO();
 //             // Ideally just need to have a function here where the cpu clicks on one of the available cells
 //             autoclickcell();
 //         }
